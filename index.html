@@ -7,352 +7,391 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        h1 {
-            margin: 50px 0;
-            text-align: center;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #4e54c8;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #8f94fb, #4e54c8);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            min-height: 100vh;
+            background-repeat: no-repeat;
+
         }
 
-        .snake-wrap {
+        h1 {
+            margin: 0 0 50px;
+            text-align: center;
+            color: #a4f753;
+        }
+
+        #snake-wrap {
             display: flex;
             position: relative;
             flex-wrap: wrap;
             margin: 50px auto;
-            width: 289px;
-            height: 289px;
-            border: 1px solid #000;
+            width: 510px;
+            height: 510px;
+            background: #000;
         }
 
-        .snake-wrap>div {
-            width: 17px;
-            height: 17px;
+        #snake-wrap>div {
+            width: 30px;
+            height: 30px;
             border: 1px solid #000;
             box-sizing: border-box;
+        }
+
+        #apple {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        #apple:before {
+            content: '🍕';
+            font-size: 30px;
+            line-height: 30px;
         }
 
         #snake {
             position: absolute;
             top: 0;
             left: 0;
-            width: 17px;
-            height: 17px;
-            background: #ab28ff
+            width: 30px;
+            height: 30px;
+
+        }
+
+        #snake:before {
+            content: '🐲';
+            font-size: 30px;
+            line-height: 30px;
         }
     </style>
 </head>
 
 <body>
-
-    <h1>🐸 재미있는 스네이크 게임 🐍</h1>
-    <div class="snake-wrap">
-        <div id="snake"></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div class="wrap">
+        <h1>🐸 재미있는 스네이크 게임 🐍</h1>
+        <div id="snake-wrap">
+            <div id="apple"></div>
+            <div id="snake"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </body>
 
 </html>
 <script>
     /* 스네이크 게임 시작 1 - 랜덤 출몰 */
-    const square = document.querySelectorAll('.snake-wrap > div');
-    const squareNum = square.length;
+    const square = document.querySelectorAll('#snake-wrap > div');
+    const snakeWidth = document.getElementById('snake').offsetWidth;
+    const squareNum = square.length - 2;
+    const snakeBoxWidth = document.getElementById('snake-wrap').offsetWidth - 2;
     const randomNum = Math.floor(Math.random() * squareNum + 1);
-    const randomElement = document.querySelectorAll('.snake-wrap > div')[randomNum];
+    const randomElement = document.querySelectorAll('#snake-wrap > div')[randomNum];
     const clientRect = randomElement.getBoundingClientRect();
     //Math.random 0~1 사이의 난수 생성
     //Math.floor 소수점을 내림시켜 정수로 만듦
     //Math.floor(Math.random() * 10) // 0~9의 랜덤 정수 출력
     //Math.floor(Math.random() * 10) + 1 //1~10의 랜덤 정수 출력
-
     function getAbsoluteTop(element) { //요소의 top 절대위치를 구하는 함수
         return window.pageYOffset + element.getBoundingClientRect().top;
-
     }
 
     function getAbsoluteLeft(element) { //요소의 left 절대위치
@@ -367,17 +406,14 @@
     const relativeTop = absoluteTop - parentAbsoluteTop; //랜덤 요소의 상대 top 값 - 부모의 상대 top 값
     const relativeLeft = absoluteLeft - parentAbsoluteLeft; //랜덤 요소의 상대 left 값 - 부모의 상대 left 값
 
-    document.getElementById('snake').style.left = relativeLeft - 1 + 'px';
-    document.getElementById('snake').style.top = relativeTop - 1 + 'px';
+    document.getElementById('apple').style.left = relativeLeft - 1 + 'px';
+    document.getElementById('apple').style.top = relativeTop - 1 + 'px';
 
 
     /* 스네이크 게임 시작 2 - 이동 */
-
-
     window.addEventListener('keydown', moveSnake);
-    
-    function moveSnake(e) {
 
+    function moveSnake(e) {
         switch (e.keyCode) {
             case 37: //left arrow key
                 moveLeft();
@@ -392,23 +428,39 @@
                 moveDown();
                 break;
         }
-
+        warning()
     }
-    
 
     function moveLeft() {
-        document.getElementById('snake').style.left = parseInt(document.getElementById('snake').style.left) - 17 + 'px';
+        document.getElementById('snake').style.left = document.getElementById('snake').offsetLeft - snakeWidth + 'px';
     }
 
     function moveUp() {
-        document.getElementById('snake').style.top = parseInt(document.getElementById('snake').style.top) - 17 + 'px';
+        document.getElementById('snake').style.top = document.getElementById('snake').offsetTop - snakeWidth + 'px';
     }
 
     function moveRight() {
-        document.getElementById('snake').style.left = parseInt(document.getElementById('snake').style.left) + 17 + 'px';
+        document.getElementById('snake').style.left = document.getElementById('snake').offsetLeft + snakeWidth + 'px';
     }
 
     function moveDown() {
-        document.getElementById('snake').style.top = parseInt(document.getElementById('snake').style.top) + 17 + 'px';
+        document.getElementById('snake').style.top = document.getElementById('snake').offsetTop + snakeWidth + 'px';
+
+    }
+
+    function warning() {
+        if (document.getElementById('snake').offsetLeft >= snakeBoxWidth || document.getElementById('snake')
+            .offsetTop >= snakeBoxWidth) {
+
+            alert('으악!😵')
+            document.getElementById('snake').style.top = 0
+            document.getElementById('snake').style.left = 0
+
+        } else if (document.getElementById('snake').offsetLeft < 0 || document.getElementById('snake').offsetTop < 0) {
+            alert('으악!😵')
+            document.getElementById('snake').style.top = 0
+            document.getElementById('snake').style.left = 0
+        }
+
     }
 </script>
