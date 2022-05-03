@@ -479,27 +479,23 @@
     }
 
     function warning() {
-        const snakeTail = document.getElementById('sanke')
+        const snake = document.getElementById('sanke')
+        const snakeTail = document.getElementById("tail");
         if (document.getElementById('snake').offsetLeft >= snakeBoxWidth || document.getElementById('snake')
             .offsetTop >= snakeBoxWidth) {
 
             alert('으악!😵')
             document.getElementById('snake').style.top = 0
             document.getElementById('snake').style.left = 0
-            if (document.getElementById('snake').hasChildNodes()) {
-                
-                snakeTail.removeChild('#tail');
-            }
+            document.getElementById("snake").innerHTML = ""
 
 
-        } else if (document.getElementById('snake').offsetLeft < 0 || document.getElementById('snake').offsetTop < 0) {
+        } else if (document.getElementById('snake').offsetLeft < 0 || document.getElementById('snake').offsetTop <
+            0) {
             alert('으악!😵')
             document.getElementById('snake').style.top = 0
             document.getElementById('snake').style.left = 0
-            if (document.getElementById('snake').hasChildNodes()) {
-            
-                snakeTail.removeChild('#tail');
-            }
+            document.getElementById("snake").innerHTML = ""
         }
     }
 
