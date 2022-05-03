@@ -74,6 +74,21 @@
             font-size: 30px;
             line-height: 30px;
         }
+
+        .btn-start {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        #tail {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background: green;
+        }
     </style>
 </head>
 
@@ -373,7 +388,9 @@
             <div></div>
             <div></div>
         </div>
+        <a href="#a" title="시작하기" id="btn-start">시작하기</a>
     </div>
+
 </body>
 
 </html>
@@ -386,29 +403,40 @@
     const randomNum = Math.floor(Math.random() * squareNum + 1);
     const randomElement = document.querySelectorAll('#snake-wrap > div')[randomNum];
     const clientRect = randomElement.getBoundingClientRect();
+    const startBtn = document.getElementById('btn-start');
     //Math.random 0~1 사이의 난수 생성
     //Math.floor 소수점을 내림시켜 정수로 만듦
     //Math.floor(Math.random() * 10) // 0~9의 랜덤 정수 출력
     //Math.floor(Math.random() * 10) + 1 //1~10의 랜덤 정수 출력
-    function getAbsoluteTop(element) { //요소의 top 절대위치를 구하는 함수
-        return window.pageYOffset + element.getBoundingClientRect().top;
+    randomApple()
+
+    function randomApple() {
+        function getAbsoluteTop(element) { //요소의 top 절대위치를 구하는 함수
+            return window.pageYOffset + element.getBoundingClientRect().top;
+        }
+
+        function getAbsoluteLeft(element) { //요소의 left 절대위치
+            return window.pageYOffset + element.getBoundingClientRect().left;
+        }
+        const parentElement = randomElement.parentElement; //랜덤 요소의 부모
+        const parentAbsoluteTop = getAbsoluteTop(parentElement); // 부모의 절대 top 값
+        const parentAbsoluteLeft = getAbsoluteLeft(parentElement); // 부모의 절대 left 값
+        const absoluteTop = getAbsoluteTop(randomElement); //랜덤 요소의 절대 top 값
+        const absoluteLeft = getAbsoluteLeft(randomElement); //랜덤 요소의 절대 left 값
+
+        const relativeTop = absoluteTop - parentAbsoluteTop; //랜덤 요소의 상대 top 값 - 부모의 상대 top 값
+        const relativeLeft = absoluteLeft - parentAbsoluteLeft; //랜덤 요소의 상대 left 값 - 부모의 상대 left 값
+
+        document.getElementById('apple').style.left = relativeLeft + 'px';
+        document.getElementById('apple').style.top = relativeTop + 'px';
+
     }
-
-    function getAbsoluteLeft(element) { //요소의 left 절대위치
-        return window.pageYOffset + element.getBoundingClientRect().left;
+    /* 뱀과 겹치지 않게 하기 */
+    if (document.getElementById('apple').style.left == 0 + 'px' && document.getElementById('apple').style.top == 0 +
+        'px') {
+        document.getElementById('apple').style.left = snakeWidth + 'px';
+        document.getElementById('apple').style.top = snakeWidth + 'px';
     }
-    const parentElement = randomElement.parentElement; //랜덤 요소의 부모
-    const parentAbsoluteTop = getAbsoluteTop(parentElement); // 부모의 절대 top 값
-    const parentAbsoluteLeft = getAbsoluteLeft(parentElement); // 부모의 절대 left 값
-    const absoluteTop = getAbsoluteTop(randomElement); //랜덤 요소의 절대 top 값
-    const absoluteLeft = getAbsoluteLeft(randomElement); //랜덤 요소의 절대 left 값
-
-    const relativeTop = absoluteTop - parentAbsoluteTop; //랜덤 요소의 상대 top 값 - 부모의 상대 top 값
-    const relativeLeft = absoluteLeft - parentAbsoluteLeft; //랜덤 요소의 상대 left 값 - 부모의 상대 left 값
-
-    document.getElementById('apple').style.left = relativeLeft - 1 + 'px';
-    document.getElementById('apple').style.top = relativeTop - 1 + 'px';
-
 
     /* 스네이크 게임 시작 2 - 이동 */
     window.addEventListener('keydown', moveSnake);
@@ -428,7 +456,9 @@
                 moveDown();
                 break;
         }
-        warning()
+        warning();
+        eatApple();
+
     }
 
     function moveLeft() {
@@ -449,18 +479,40 @@
     }
 
     function warning() {
+        const snakeTail = document.getElementById('sanke')
         if (document.getElementById('snake').offsetLeft >= snakeBoxWidth || document.getElementById('snake')
             .offsetTop >= snakeBoxWidth) {
 
             alert('으악!😵')
             document.getElementById('snake').style.top = 0
             document.getElementById('snake').style.left = 0
+            if (document.getElementById('snake').hasChildNodes()) {
+                
+                snakeTail.removeChild('#tail');
+            }
+
 
         } else if (document.getElementById('snake').offsetLeft < 0 || document.getElementById('snake').offsetTop < 0) {
             alert('으악!😵')
             document.getElementById('snake').style.top = 0
             document.getElementById('snake').style.left = 0
+            if (document.getElementById('snake').hasChildNodes()) {
+            
+                snakeTail.removeChild('#tail');
+            }
         }
+    }
 
+    function eatApple() {
+        const snake = document.getElementById('snake')
+        const snakeTop = document.getElementById('snake').offsetTop;
+
+        if (document.getElementById('apple').offsetLeft == document.getElementById('snake').offsetLeft &&
+            document.getElementById('apple').offsetTop == document.getElementById('snake').offsetTop) {
+            const newTail = document.createElement("div")
+            newTail.setAttribute('id', 'tail');
+            snake.appendChild(newTail)
+
+        }
     }
 </script>
