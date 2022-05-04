@@ -37,6 +37,7 @@
             width: 510px;
             height: 510px;
             background: #000;
+
         }
 
         #snake-wrap>div {
@@ -396,14 +397,17 @@
 </html>
 <script>
     /* 스네이크 게임 시작 1 - 랜덤 출몰 */
+    const apple = document.getElementById('apple');
+    const snake = document.getElementById('snake');
     const square = document.querySelectorAll('#snake-wrap > div');
-    const snakeWidth = document.getElementById('snake').offsetWidth;
+    const snakeWidth = snake.offsetWidth;
     const squareNum = square.length - 2;
     const snakeBoxWidth = document.getElementById('snake-wrap').offsetWidth - 2;
     const randomNum = Math.floor(Math.random() * squareNum + 1);
     const randomElement = document.querySelectorAll('#snake-wrap > div')[randomNum];
     const clientRect = randomElement.getBoundingClientRect();
     const startBtn = document.getElementById('btn-start');
+
     //Math.random 0~1 사이의 난수 생성
     //Math.floor 소수점을 내림시켜 정수로 만듦
     //Math.floor(Math.random() * 10) // 0~9의 랜덤 정수 출력
@@ -427,17 +431,30 @@
         const relativeTop = absoluteTop - parentAbsoluteTop; //랜덤 요소의 상대 top 값 - 부모의 상대 top 값
         const relativeLeft = absoluteLeft - parentAbsoluteLeft; //랜덤 요소의 상대 left 값 - 부모의 상대 left 값
 
-        document.getElementById('apple').style.left = relativeLeft + 'px';
-        document.getElementById('apple').style.top = relativeTop + 'px';
+        apple.style.left = relativeLeft + 'px';
+        apple.style.top = relativeTop + 'px';
 
-    }
-    /* 뱀과 겹치지 않게 하기 */
-    if (document.getElementById('apple').style.left == 0 + 'px' && document.getElementById('apple').style.top == 0 +
-        'px') {
-        document.getElementById('apple').style.left = snakeWidth + 'px';
-        document.getElementById('apple').style.top = snakeWidth + 'px';
+        /* 뱀과 겹치지 않게 하기 */
+        if (apple.style.left == 0 + 'px' && apple.style.top == 0 +
+            'px') {
+            apple.style.left = snakeWidth + 'px';
+            apple.style.top = snakeWidth + 'px';
+        }
     }
 
+    //snakeMoving()
+
+    function snakeMoving() {
+        var i = 0;
+        var it = setInterval(function () {
+            if (i++ < snakeBoxWidth) {
+                snake.style.top = i + 'px'
+            } else {
+                clearInterval(it);
+            }
+        }, 1)
+    
+    }
     /* 스네이크 게임 시작 2 - 이동 */
     window.addEventListener('keydown', moveSnake);
 
@@ -445,69 +462,74 @@
         switch (e.keyCode) {
             case 37: //left arrow key
                 moveLeft();
+                //snakeMoving()
                 break;
             case 38: //Up arrow key
                 moveUp();
+                //snakeMoving()
                 break;
             case 39: //right arrow key
                 moveRight();
+                //snakeMoving()
                 break;
             case 40: //down arrow key
                 moveDown();
+                //snakeMoving()
                 break;
         }
         warning();
         eatApple();
+       snakeMoving()
 
     }
 
+
     function moveLeft() {
-        document.getElementById('snake').style.left = document.getElementById('snake').offsetLeft - snakeWidth + 'px';
+        snake.style.left = snake.offsetLeft - snakeWidth + 'px';
     }
 
     function moveUp() {
-        document.getElementById('snake').style.top = document.getElementById('snake').offsetTop - snakeWidth + 'px';
+        snake.style.top = snake.offsetTop - snakeWidth + 'px';
     }
 
     function moveRight() {
-        document.getElementById('snake').style.left = document.getElementById('snake').offsetLeft + snakeWidth + 'px';
+        snake.style.left = snake.offsetLeft + snakeWidth + 'px';
     }
 
     function moveDown() {
-        document.getElementById('snake').style.top = document.getElementById('snake').offsetTop + snakeWidth + 'px';
+        snake.style.top = snake.offsetTop + snakeWidth + 'px';
 
     }
 
+
+
     function warning() {
-        const snake = document.getElementById('sanke')
-        const snakeTail = document.getElementById("tail");
-        if (document.getElementById('snake').offsetLeft >= snakeBoxWidth || document.getElementById('snake')
-            .offsetTop >= snakeBoxWidth) {
-
+        if (snake.offsetLeft >= snakeBoxWidth || snake.offsetTop >= snakeBoxWidth) {
             alert('으악!😵')
-            document.getElementById('snake').style.top = 0
-            document.getElementById('snake').style.left = 0
-            document.getElementById("snake").innerHTML = ""
+            snake.style.top = 0
+            snake.style.left = 0
+            document.getElementById("snake").innerHTML = "";
 
 
-        } else if (document.getElementById('snake').offsetLeft < 0 || document.getElementById('snake').offsetTop <
-            0) {
+        } else if (snake.offsetLeft < 0 || snake.offsetTop < 0) {
             alert('으악!😵')
-            document.getElementById('snake').style.top = 0
-            document.getElementById('snake').style.left = 0
-            document.getElementById("snake").innerHTML = ""
+            snake.style.top = 0
+            snake.style.left = 0
+            document.getElementById("snake").innerHTML = "";
         }
     }
 
     function eatApple() {
-        const snake = document.getElementById('snake')
-        const snakeTop = document.getElementById('snake').offsetTop;
-
-        if (document.getElementById('apple').offsetLeft == document.getElementById('snake').offsetLeft &&
-            document.getElementById('apple').offsetTop == document.getElementById('snake').offsetTop) {
+        if (apple.offsetLeft == snake.offsetLeft && apple.offsetTop == snake.offsetTop) {
             const newTail = document.createElement("div")
             newTail.setAttribute('id', 'tail');
-            snake.appendChild(newTail)
+            snake.appendChild(newTail);
+
+            for (var i = 0; i < snakeTail.length; i++) {
+                console.log(snakeTail[i]);
+
+            }
+            console.log('same')
 
         }
     }
