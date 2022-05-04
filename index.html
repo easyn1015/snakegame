@@ -40,7 +40,7 @@
 
         }
 
-        #snake-wrapdiv {
+        #snake-wrap div {
             width: 30px;
             height: 30px;
             border: 1px solid #000;
@@ -437,8 +437,7 @@
         apple.style.top = relativeTop + 'px';
 
         /* 뱀과 겹치지 않게 하기 */
-        if (apple.style.left == 0 + 'px' && apple.style.top == 0 +
-            'px') {
+        if (apple.style.left == 0 + 'px' && apple.style.top == 0 + 'px') {
             apple.style.left = snakeWidth + 'px';
             apple.style.top = snakeWidth + 'px';
         }
