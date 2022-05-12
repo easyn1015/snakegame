@@ -2,537 +2,326 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funny Sanke Game!!</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #4e54c8;
-            /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);
-            /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #8f94fb, #4e54c8);
-            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funny Sanke Game!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-            min-height: 100vh;
-            background-repeat: no-repeat;
+    body {
+      background-color: #0b0b0b;
+    }
 
-        }
+    .game-info {
+      padding: 40px 0 0;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+    }
 
-        h1 {
-            margin: 0 0 50px;
-            text-align: center;
-            color: #a4f753;
-        }
+    #score {
+      font-size: 40px;
+      font-weight: 500;
+    }
 
-        #snake-wrap {
-            display: flex;
-            position: relative;
-            flex-wrap: wrap;
-            margin: 50px auto;
-            width: 510px;
-            height: 510px;
-            background: #000;
+    #screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
 
-        }
+    .btn {
+      flex: 1 1 auto;
+      margin: 10px;
+      padding: 20px 50px;
+      text-align: center;
+      transition: 0.5s;
+      background-size: 200% auto;
+      color: rgb(255, 255, 255);
+      background-image: linear-gradient(to right, #654ea3 0%, #eaafc8 51%, #654ea3 100%);
+      box-shadow: 0 0 20px #eee;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 600;
+    }
 
-        #snake-wrap div {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #000;
-            box-sizing: border-box;
-        }
+    .btn:hover {
+      background-position: right center;
+    }
 
-        #apple {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 30px;
-            height: 30px;
-        }
+    #sub-option {
+      padding: 25px;
+      color: #fff;
+      font-size: 30px;
+    }
 
-        #apple:before {
-            content: '🍕';
-            font-size: 30px;
-            line-height: 30px;
-        }
+    #snake-map {
+      position: absolute;
+      top: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 850px;
+      width: 850px;
+      background-image: url("img/bg-snake.jpeg");
+      background-size: cover;
+      z-index: 100;
+    }
 
-        #snake-wrap #snake {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 30px;
-            min-height: 30px;
-            border:none;
-            background: url(img/giraff-head.png) no-repeat center top/30px;
+    .snake {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      z-index: 300;
+      background: url(img/img-alian.png) no-repeat center center/100%;
+    }
 
-        }
-
-        /*#snake:before {
-            content: '🐲';
-            font-size: 30px;
-            line-height: 30px;
-        }*/
-
-        .btn-start {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        #snake-wrap #tail {
-            position: relative;
-            top: 100%;
-            left: 0;
-            width: 30px;
-            height: 30px;
-            border:none;
-            background: url(img/giraff-neck.png) no-repeat center center/cover;
-        }
-    </style>
+    .food {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: gold;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      z-index: 200;
+      background: url(img/img-virus.png) no-repeat center center/100%;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="wrap">
-        <h1>🐍 재미있는 기린... 게임.. 🦒</h1>
-        <div id="snake-wrap">
-            <div id="apple"></div>
-            <div id="snake"></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+
+  <body>
+    <div id="screen">
+      <div id="snake-map"></div>
+    </div>
+    <div id="game-wrap">
+      <div id="score-board" class="game-info">
+        <p id="score">🛸 재미있는 우주게임 👽</p>
+      </div>
+      <div id="game-start" class="game-info">
+        <button class="btn" id="do-play" onclick="gamePlay()">게임 시작!</button>
+        <div id="sub-option">
+
         </div>
-        <a href="#a" title="시작하기" id="btn-start">시작하기</a>
+      </div>
     </div>
 
+    </div>
+  </body>
+  <script>
+    // 맵 생성
+    var mapHeight = 17; // = 850 / 50
+    var mapWidth = 17; // = 850 / 50
+    var blockSize = 50;
+    // 뱀 방향 
+    var directions = {
+      up: 0,
+      right: 1,
+      down: 2,
+      left: 3
+    }
+    // 뱀 이동
+    var colMove = [0, 1, 0, -1];
+    var rowMove = [-1, 0, 1, 0];
+
+    var sankeDirection = directions["down"];
+    var snakeDead = false;
+    var snakeEating = false;
+    var playGame = false;
+    var gameOver = false;
+    var gameLoop;
+    var speed = 140;
+    var gameScore = 0;
+
+    var gameMap = document.getElementById("snake-map");
+    var scoreText = document.getElementById("score");
+    var playButton = document.getElementById("do-play");
+    var messageBox = document.getElementById("sub-option");
+
+    // Handle user input
+    document.onkeydown = moveSnake;
+
+    function moveSnake(e) {
+      e = e || window.event;
+
+      if (e.keyCode == '38') {
+        // up arrow
+        sankeDirection = directions["up"];
+      } else if (e.keyCode == '40') {
+        // down arrow
+        sankeDirection = directions["down"];
+      } else if (e.keyCode == '37') {
+        // left arrow
+        sankeDirection = directions["left"];
+      } else if (e.keyCode == '39') {
+        // right arrow
+        sankeDirection = directions["right"];
+      }
+    }
+
+    var snake = [];
+
+    var snakeHead = new SnakePiece(2, 3);
+
+    var foods = [];
+    foods.push(new FoodPiece());
+
+    // 뱀에 머리 추가 
+    snake.push(snakeHead);
+
+    // 게임 실행하면 반복되는 함수들
+    function play() {
+      gameLoop = setInterval(function () {
+
+        // 뱀 자동 이동
+        snake.unshift(new SnakePiece(snake[0].row + rowMove[sankeDirection], snake[0].col + colMove[
+          sankeDirection]));
+
+        // 사과를 먹었을 때 
+        snakeEating = isEating();
+        if (snakeEating) {
+          gameScore = gameScore + 10;
+        }
+        // 사과 먹지 않았을때는 꼬리를 하나씩 지움
+        if (!snakeEating) {
+          gameMap.removeChild(snake.pop().el);
+        }
+        // 뱀이 죽었을 때 
+        snakeDead = isDying();
+        if (snakeDead) {
+          playGame = false;
+          handleDeath();
+        }
+
+        snakeEating = false;
+        snakeDead = false;
+
+        scoreText.innerText = "현재 점수: " + gameScore;
+        if (!gameOver) {
+          playButton.innerText = playGame ? "멈춰!" : "게임 시작!";
+        }
+
+        // 사과 다먹으면 다시 생성
+        if (foods.length < 1) {
+          foods.push(new FoodPiece());
+        }
+      }, speed);
+    }
+
+    // 게임 실행
+    function gamePlay() {
+      playGame = !playGame;
+      if (playGame) {
+        play();
+      } else {
+        clearInterval(gameLoop);
+      }
+    }
+
+    // 뱀이 죽었을 때 실행
+    function handleDeath() {
+
+      // 게임 멈추기 
+      clearInterval(gameLoop);
+
+      // 죽은 메세지 
+      gameOver = true;
+      messageBox.innerText = "🔥 게임오버 🔥";
+
+      // 뱀 지우기
+      while (snake[0]) {
+        gameMap.removeChild(snake.pop().el);
+      }
+
+      // 스네이크 리스폰
+      setTimeout(function () {
+        playButton.innerText = "게임 시작!";
+
+        // 게임 초기화
+        snakeHead = new SnakePiece(1, 1);
+        snake.push(snakeHead);
+        gameOver = false;
+      }, 1500);
+    }
+
+    /// 스네이크 몸 객체 생성 
+    function SnakePiece(row, col) {
+      /* 스네이크 생성 */
+      var snakeBody = document.createElement("div");
+      snakeBody.className = "snake";
+      snakeBody.style.top = (row * blockSize) + "px";
+      snakeBody.style.left = (col * blockSize) + "px";
+      gameMap.appendChild(snakeBody);
+      this.col = col;
+      this.row = row;
+      this.el = snakeBody;
+    }
+
+    // 사과 객체 생성
+    function FoodPiece() {
+      var col = getRandomNum(0, mapWidth);
+      var row = getRandomNum(0, mapHeight);
+
+      var apple = document.createElement("div");
+      apple.className = "food";
+      apple.style.top = (row * blockSize) + "px";
+      apple.style.left = (col * blockSize) + "px";
+      gameMap.appendChild(apple);
+
+      this.col = col;
+      this.row = row;
+      this.el = apple;
+    }
+
+    // 죽었는지 확인
+    function isDying() {
+      // 벽에 부딪혔을 때
+      var head = snake[0];
+      if (head.row < 0 || head.row >= mapHeight || head.col < 0 || head.col >= mapWidth) {
+        return true;
+      }
+      // 자기 몸에 부딪혔을 때
+      var i;
+      for (i = 1; i < snake.length; i++) {
+        var curPiece = snake[i];
+        if (head.row === curPiece.row && head.col === curPiece.col) { // 머리의 위치와 몸의 위치가 만날 때
+          return true;
+        }
+      }
+      return false;
+    }
+    // 사과 먹기
+    function isEating() {
+      var head = snake[0];
+      var i;
+      for (i = 0; i < foods.length; i++) {
+        var curPiece = foods[i];
+        if (head.row === curPiece.row && head.col === curPiece.col) { // 사과의 위치와 몸의 위치가 만날 때
+
+          foods.splice(i, 1); //배열 변경을 시작할 인덱스 i, 배열에서 제거할 요소의 수 1 - 사과의 배열에서 제거
+          gameMap.removeChild(curPiece.el); // apple을 제거
+          return true;
+
+
+        }
+      }
+      return false;
+    }
+
+    /* 난수 생성 */
+    function getRandomNum(min, max) {
+      return Math.floor(Math.random() * (max - min));
+    }
+  </script>
 </body>
 
 </html>
-<script>
-    /* 스네이크 게임 시작 1 - 랜덤 출몰 */
-    const apple = document.getElementById('apple');
-    const snake = document.getElementById('snake');
-    const square = document.querySelectorAll('#snake-wrap > div');
-    const snakeWidth = snake.offsetWidth;
-    const squareNum = square.length - 2;
-    const snakeBoxWidth = document.getElementById('snake-wrap').offsetWidth - 2;
-    const randomNum = Math.floor(Math.random() * squareNum + 1);
-    const randomElement = document.querySelectorAll('#snake-wrap > div')[randomNum];
-    const clientRect = randomElement.getBoundingClientRect();
-    const startBtn = document.getElementById('btn-start');
-
-    //Math.random 0~1 사이의 난수 생성
-    //Math.floor 소수점을 내림시켜 정수로 만듦
-    //Math.floor(Math.random() * 10) // 0~9의 랜덤 정수 출력
-    //Math.floor(Math.random() * 10) + 1 //1~10의 랜덤 정수 출력
-    randomApple()
-
-    function randomApple() {
-        function getAbsoluteTop(element) { //요소의 top 절대위치를 구하는 함수
-            return window.pageYOffset + element.getBoundingClientRect().top;
-        }
-
-        function getAbsoluteLeft(element) { //요소의 left 절대위치
-            return window.pageYOffset + element.getBoundingClientRect().left;
-        }
-        const parentElement = randomElement.parentElement; //랜덤 요소의 부모
-        const parentAbsoluteTop = getAbsoluteTop(parentElement); // 부모의 절대 top 값
-        const parentAbsoluteLeft = getAbsoluteLeft(parentElement); // 부모의 절대 left 값
-        const absoluteTop = getAbsoluteTop(randomElement); //랜덤 요소의 절대 top 값
-        const absoluteLeft = getAbsoluteLeft(randomElement); //랜덤 요소의 절대 left 값
-
-        const relativeTop = absoluteTop - parentAbsoluteTop; //랜덤 요소의 상대 top 값 - 부모의 상대 top 값
-        const relativeLeft = absoluteLeft - parentAbsoluteLeft; //랜덤 요소의 상대 left 값 - 부모의 상대 left 값
-
-        apple.style.left = relativeLeft + 'px';
-        apple.style.top = relativeTop + 'px';
-
-        /* 뱀과 겹치지 않게 하기 */
-        if (apple.style.left == 0 + 'px' && apple.style.top == 0 + 'px') {
-            apple.style.left = snakeWidth + 'px';
-            apple.style.top = snakeWidth + 'px';
-        }
-    }
-    startBtn.addEventListener('click', function () {
-        snakeMoving()
-    });
-
-    function snakeMoving() {
-        var i = 0;
-        var go = setInterval(function () {
-            if (i++ < snakeBoxWidth - 30) {
-                i += 30
-                snake.style.top = i + 'px'
-            } else {
-                clearInterval(go);
-                alert('으악!😵')
-                snake.style.top = 0
-                snake.style.left = 0
-            }
-        }, 100)
-
-    }
-    /* 스네이크 게임 시작 2 - 이동 */
-    window.addEventListener('keydown', moveSnake);
-
-    function moveSnake(e) {
-        switch (e.keyCode) {
-            case 37: //left arrow key
-                moveLeft();
-                break;
-            case 38: //Up arrow key
-                moveUp();
-                break;
-            case 39: //right arrow key
-                moveRight();
-                break;
-            case 40: //down arrow key
-                moveDown();
-                break;
-        }
-        warning();
-        eatApple();
-
-
-    }
-
-
-    function moveLeft() {
-        snake.style.left = snake.offsetLeft - snakeWidth + 'px';
-        snake.offsetLeft
-    }
-
-    function moveUp() {
-        snake.style.top = snake.offsetTop - snakeWidth + 'px';
-        snake.offsetTop
-    }
-
-    function moveRight() {
-        snake.style.left = snake.offsetLeft + snakeWidth + 'px';
-        snake.offsetLeft
-    }
-
-    function moveDown() {
-        snake.style.top = snake.offsetTop + snakeWidth + 'px';
-        snake.offsetTop
-
-    }
-
-
-
-    function warning() {
-        if (snake.offsetLeft >= snakeBoxWidth || snake.offsetTop >= snakeBoxWidth) {
-            alert('으악!😵')
-            snake.style.top = 0
-            snake.style.left = 0
-            document.getElementById("snake").innerHTML = "";
-
-
-        } else if (snake.offsetLeft < 0 || snake.offsetTop < 0) {
-            alert('으악!😵')
-            snake.style.top = 0
-            snake.style.left = 0
-            document.getElementById("snake").innerHTML = "";
-        }
-    }
-
-    function eatApple() {
-        if (apple.offsetLeft == snake.offsetLeft && apple.offsetTop == snake.offsetTop) {
-            const newTail = document.createElement("div")
-            newTail.setAttribute('id', 'tail');
-            snake.appendChild(newTail);
-            console.log('same')
-        }
-
-    }
-</script>
