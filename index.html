@@ -58,7 +58,7 @@
     #sub-option {
       padding: 25px;
       color: #fff;
-      font-size: 30px;
+      font-size: 50px;
     }
 
     #snake-map {
@@ -206,6 +206,7 @@
         snakeDead = false;
 
         scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
+
         if (!gameOver) {
           playButton.innerText = playGame ? "멈춰!" : "게임 시작!";
         }
@@ -244,7 +245,9 @@
 
       // 스네이크 리스폰
       setTimeout(function () {
+        scoreText.innerText = "🛸 재미있는 우주게임 👽 ";
         playButton.innerText = "게임 시작!";
+        messageBox.innerText = "";
 
         // 게임 초기화
         snakeHead = new SnakePiece(1, 1);
