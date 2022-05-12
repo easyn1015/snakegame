@@ -205,7 +205,7 @@
         snakeEating = false;
         snakeDead = false;
 
-        scoreText.innerText = "현재 점수: " + gameScore;
+        scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
         if (!gameOver) {
           playButton.innerText = playGame ? "멈춰!" : "게임 시작!";
         }
@@ -235,7 +235,7 @@
 
       // 죽은 메세지 
       gameOver = true;
-      messageBox.innerText = "🔥 게임오버 🔥";
+      messageBox.innerText = "💀 게임오버 💀";
 
       // 뱀 지우기
       while (snake[0]) {
