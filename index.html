@@ -147,7 +147,7 @@
     var playButton = document.getElementById("do-play");
     var messageBox = document.getElementById("sub-option");
 
-    // Handle user input
+    // 뱀 조종
     document.onkeydown = moveSnake;
 
     function moveSnake(e) {
@@ -169,7 +169,6 @@
     }
 
     var snake = [];
-
     var snakeHead = new SnakePiece(2, 3);
 
     var foods = [];
@@ -186,7 +185,7 @@
         snake.unshift(new SnakePiece(snake[0].row + rowMove[sankeDirection], snake[0].col + colMove[
           sankeDirection]));
 
-        // 사과를 먹었을 때 
+        // 사과를 먹었을 때 꼬리 안지움
         snakeEating = isEating();
         if (snakeEating) {
           gameScore = gameScore + 10;
@@ -263,7 +262,9 @@
       snakeBody.className = "snake";
       snakeBody.style.top = (row * blockSize) + "px";
       snakeBody.style.left = (col * blockSize) + "px";
+
       gameMap.appendChild(snakeBody);
+
       this.col = col;
       this.row = row;
       this.el = snakeBody;
