@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #fff;
+            background-color: #201d22;
         }
 
         .game-info {
@@ -96,20 +96,83 @@
             background: url(img/img-virus.png) no-repeat center center/100%;
         }
 
+        .mobile-direction-key {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding:20px 0;
+            width: 50vw;
+            height: auto;
+            text-align:center;
+        }
+
+        .mobile-direction-key a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100%;
+            text-indent: -99999px;
+        }
+
+        #btn-up {
+            display: block;
+            margin: 0 auto;
+            background-image: url(img/up-arrow-y.png);
+        }
+
+        #btn-down {
+            display: block;
+            margin: 0 auto;
+            background-image: url(img/down-arrow-y.png);
+        }
+
+        #btn-left {
+            margin: 0 10% 0 0;
+            background-image: url(img/left-arrow-y.png);
+        }
+
+        #btn-right {
+            margin: 0 0 0 10%;
+            background-image: url(img/right-arrow-y.png);
+        }
+
         @media screen and (max-width: 1024px) {
 
-            #score-board{padding:20px 0 0;}
-            .game-info{padding:0 0 10px;}
-            #score{font-size:20px;}
-            .btn{margin:0;padding:10px;font-size:15px}
-            #sub-option{padding:10px 0;font-size:20px;}
+            #score-board {
+                padding: 20px 0 0;
+            }
+
+            .game-info {
+                padding: 0 0 10px;
+            }
+
+            #score {
+                font-size: 20px;
+            }
+
+            .btn {
+                margin: 0;
+                padding: 10px 30px;
+                font-size: 15px
+            }
+
+            #sub-option {
+                padding: 10px 0;
+                font-size: 20px;
+            }
+
             #snake-map {
-                top:60%;
-                left:50%;
-                transform:translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
                 height: 340px;
                 width: 340px;
             }
+
             .snake {
                 width: 20px;
                 height: 20px;
@@ -119,6 +182,9 @@
                 height: 20px;
                 width: 20px;
             }
+
+
+
         }
     </style>
 </head>
@@ -138,8 +204,14 @@
             </div>
             <div id="game-start" class="game-info">
                 <button class="btn" id="do-play" onclick="gamePlay()">게임 시작!</button>
-                
+
                 <!-- <a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
+            </div>
+            <div class="mobile-direction-key">
+                <a href="#a" id="btn-up">Up</a>
+                <a href="#a" id="btn-left">Left</a>
+                <a href="#a" id="btn-right">Right</a>
+                <a href="#a" id="btn-down">down</a>
             </div>
         </div>
 
@@ -152,10 +224,6 @@
         var mapWidth = 17; // = 850 / 50
         var blockSize = 50;
 
-        if (window.innerWidth <= 1024) {
-            var blockSize = 20;
-            console.log(blockSize)
-        }
         // 뱀 방향 
         var directions = {
             up: 0,
@@ -180,9 +248,20 @@
         var scoreText = document.getElementById("score");
         var playButton = document.getElementById("do-play");
         var messageBox = document.getElementById("sub-option");
+        var btnUp = document.getElementById("btn-up");
+        var btnDown = document.getElementById("btn-down");
+        var btnLeft = document.getElementById("btn-left");
+        var btnRight = document.getElementById("btn-right");
+
+
+        if (window.innerWidth <= 1024) {
+            var blockSize = 20;
+            console.log(blockSize)
+        }
 
         // 뱀 조종
         document.onkeydown = moveSnake;
+        moveSnakeMobile();
 
         function moveSnake(e) {
             e = e || window.event;
@@ -200,8 +279,28 @@
                 // right arrow
                 sankeDirection = directions["right"];
             }
+
         }
 
+        function moveSnakeMobile(event) {
+            btnUp.addEventListener('click', function (event) {
+                // up arrow
+                sankeDirection = directions["up"];
+                console.log('up')
+            });
+            btnDown.addEventListener('click', function (event) {
+                // down arrow
+                sankeDirection = directions["down"];
+            });
+            btnLeft.addEventListener('click', function (event) {
+                // left arrow
+                sankeDirection = directions["left"];
+            });
+            btnRight.addEventListener('click', function (event) {
+                // right arrow
+                sankeDirection = directions["right"];
+            });
+        }
         var snake = [];
         var snakeHead = new SnakePiece(2, 3);
 
