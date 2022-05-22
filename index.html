@@ -67,8 +67,8 @@
             top: 28%;
             left: 50%;
             transform: translateX(-50%);
-            height: 850px;
-            width: 850px;
+            height: 80vmin;
+            width: 80vmin;
             background-image: url("img/bg-snake.jpeg");
             background-size: cover;
             z-index: 100;
@@ -98,36 +98,22 @@
 
         @media screen and (max-width: 1024px) {
 
-            .game-info {
-                padding: 20px 0;
-            }
-
-            #score {
-                font-size: 20px;
-            }
-
-            .btn {
-                padding: 10px;
-                font-size: 15px
-            }
-
-            #sub-option {
-                padding: 15px;
-            }
-
+            .game-info{padding:20px 0;}
+            #score{font-size:20px;}
+            .btn{padding:10px;font-size:15px}
+            #sub-option{padding:15px;}
             #snake-map {
-                height: 170px;
-                width: 170px;
+                height: 425px;
+                width: 425px;
             }
-
             .snake {
-                width: 10px;
-                height: 10px;
+                width: 25px;
+                height: 25px;
             }
 
             .food {
-                height: 10px;
-                width: 10px;
+                height: 25px;
+                width: 25px;
             }
         }
     </style>
@@ -163,7 +149,7 @@
         var blockSize = 50;
 
         if (window.innerWidth <= 1024) {
-            var blockSize = 10;
+            var blockSize = 25;
             console.log(blockSize)
         }
         // 뱀 방향 
@@ -193,19 +179,20 @@
 
         // 뱀 조종
         document.onkeydown = moveSnake;
+
         function moveSnake(e) {
             e = e || window.event;
 
-            if (e.keyCode == '38' || 'touchstart') {
+            if (e.keyCode == '38') {
                 // up arrow
                 sankeDirection = directions["up"];
-            } else if (e.keyCode == '40' || 'touchmove') {
+            } else if (e.keyCode == '40') {
                 // down arrow
                 sankeDirection = directions["down"];
-            } else if (e.keyCode == '37' || 'touchcancel') {
+            } else if (e.keyCode == '37') {
                 // left arrow
                 sankeDirection = directions["left"];
-            } else if (e.keyCode == '39' || 'touchend') {
+            } else if (e.keyCode == '39') {
                 // right arrow
                 sankeDirection = directions["right"];
             }
