@@ -98,10 +98,11 @@
 
         @media screen and (max-width: 1024px) {
 
-            .game-info{padding:20px 0;}
+            #score-board{padding:20px 0 0;}
+            .game-info{padding:0 0 10px;}
             #score{font-size:20px;}
-            .btn{padding:10px;font-size:15px}
-            #sub-option{padding:15px;}
+            .btn{margin:0;padding:10px;font-size:15px}
+            #sub-option{padding:10px 0;font-size:20px;}
             #snake-map {
                 top:50%;
                 left:50%;
@@ -131,13 +132,13 @@
         <div id="game-wrap">
             <div id="score-board" class="game-info">
                 <p id="score">🛸 재미있는 스네이크 게임 👽</p>
-
-            </div>
-            <div id="game-start" class="game-info">
-                <button class="btn" id="do-play" onclick="gamePlay()">게임 시작!</button>
                 <div id="sub-option">
 
                 </div>
+            </div>
+            <div id="game-start" class="game-info">
+                <button class="btn" id="do-play" onclick="gamePlay()">게임 시작!</button>
+                
                 <!-- <a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
             </div>
         </div>
