@@ -65,7 +65,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 100;
+            z-index: 300;
             width: 100%;
             height: 100%;
             vertical-align: middle;
@@ -77,8 +77,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            z-index: 300;
             font-size: 50px;
         }
 
@@ -101,7 +99,7 @@
             left: 0;
             width: 50px;
             height: 50px;
-            z-index: 300;
+            z-index: 200;
             background: url(img/img-monster.png) no-repeat center center/100%;
         }
 
@@ -228,7 +226,7 @@
                 </div>
             </div>
             <div id="game-start" class="game-info">
-                <button class="btn" id="do-play" onclick="gamePlay()">게임 시작!</button>
+                <button class="btn" id="do-play">게임 시작!</button>
                 <!-- <a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
             </div>
             <div id="screen">
@@ -246,263 +244,304 @@
 
     </body>
     <script>
-        // 맵 생성
-        var mapHeight = 17;
-        var mapWidth = 17; // = 850 / 50
-        var blockSize = 50;
+        //========================================================================================================================================
+        // @brief 우주를 테마로 한 스네이크 게임
+        // @details 
+        //  1. 스네이크게임의 틀은 같고 우주를 테마로 하였다. 
+        //  2. html, css, Javascript만을 사용하여 구현하였다.
+        // @author : 이지연
+        // @date : 2022-06-19
+        // @version : 0.1
+        //========================================================================================================================================
+        var App = new Object();
+        //——————————-——————————-——————————-——————————-
+        // 모듈화 사용을 위한 객체 생성
+        //——————————-——————————-——————————-——————————-
+        document.addEventListener("DOMContentLoaded", function (event) {
+            App.snakeGame.init();
 
-        // 뱀 방향 
-        var directions = {
-            up: 0,
-            right: 1,
-            down: 2,
-            left: 3
-        }
-        // 뱀 이동
-        var colMove = [0, 1, 0, -1];
-        var rowMove = [-1, 0, 1, 0];
+        });
 
-        var sankeDirection = directions["down"];
-        var snakeDead = false;
-        var snakeEating = false;
-        var playGame = false;
-        var gameOver = false;
-        var gameLoop;
-        var speed = 140;
-        var gameScore = 0;
+        App.snakeGame = function () {
+            var self;
+            var mapHeight, mapWidth, blockSize;
+            var snake, snakeHead;
+            var gameMap, scoreText, playButton, messageBox, btnUp, btnDown, btnLeft, btnRight;
+            var colMove, rowMove;
+            var sankeDirection, snakeDead, snakeEating, playGame, gameOver, gameLoop, speed, gameScore;
+            var foods;
+            return {
+                init: function () {
+                    self = this;
+                    //——————————-——————————-——————————-——————————-
+                    // 맵 생성 (PC, Mobile) - 맵 넓이 / 블록 크기
+                    //——————————-——————————-——————————-——————————-
+                    mapHeight = 17;
+                    mapWidth = 17; // = 850 / 50
+                    blockSize = 50;
 
-        var gameMap = document.getElementById("snake-map");
-        var scoreText = document.getElementById("score");
-        var playButton = document.getElementById("do-play");
-        var messageBox = document.getElementById("sub-option");
-        var btnUp = document.getElementById("btn-up");
-        var btnDown = document.getElementById("btn-down");
-        var btnLeft = document.getElementById("btn-left");
-        var btnRight = document.getElementById("btn-right");
+                    window.addEventListener('resize', function (event) {
+                        mobileSetting()
+                    }, true);
 
-        if (window.innerWidth <= 1024) {
-            var blockSize = 20;
-            var mapHeight = 24;
-            var mapWidth = 24; // = 480 / 20
-        }
-        if (window.innerWidth <= 480) {
-            var blockSize = 20;
-            var mapHeight = 16;
-            var mapWidth = 16; // = 320 / 20
-        }
-        window.addEventListener('resize', function (event) {
-            if (window.innerWidth <= 1024) {
-                var blockSize = 20;
-                var mapHeight = 24;
-                var mapWidth = 24; // = 480 / 20
-            }
-            if (window.innerWidth <= 480) {
-                var blockSize = 20;
-                var mapHeight = 16;
-                var mapWidth = 16; // = 320 / 20
-            }
-        }, true);
-        // 뱀 조종
-        document.onkeydown = moveSnake;
-        moveSnakeMobile();
+                    function mobileSetting() {
+                        if (window.innerWidth <= 1024) {
+                            mapHeight = 24;
+                            mapWidth = 24; // = 480 / 20
+                            blockSize = 20;
+                        }
+                        if (window.innerWidth <= 480) {
+                            mapHeight = 16;
+                            mapWidth = 16; // = 320 / 20
+                            blockSize = 20;
+                        }
+                    }
 
-        function moveSnake(e) {
-            e = e || window.event;
+                    self.settingGamePlay();
+                },
+                settingGamePlay: function () {
+                    //——————————-——————————-——————————-——————————-
+                    // 뱀 방향 설정
+                    //——————————-——————————-——————————-——————————-
+                    var directions = {
+                        up: 0,
+                        right: 1,
+                        down: 2,
+                        left: 3
+                    }
+                    //——————————-——————————-——————————-——————————-
+                    // 뱀 이동 설정
+                    //——————————-——————————-——————————-——————————-
+                    colMove = [0, 1, 0, -1];
+                    rowMove = [-1, 0, 1, 0];
 
-            if (e.keyCode == '38') {
-                // up arrow
-                sankeDirection = directions["up"];
-            } else if (e.keyCode == '40') {
-                // down arrow
-                sankeDirection = directions["down"];
-            } else if (e.keyCode == '37') {
-                // left arrow
-                sankeDirection = directions["left"];
-            } else if (e.keyCode == '39') {
-                // right arrow
-                sankeDirection = directions["right"];
-            }
+                    //——————————-——————————-——————————-——————————-
+                    // 기본 옵션 셋팅
+                    //——————————-——————————-——————————-——————————-
+                    sankeDirection = directions["down"]; // 뱀 기본 이동 방향
+                    snakeDead = false; // 뱀 사망
+                    snakeEating = false; // 뱀 식사
+                    playGame = false; // 게임 진행 여부
+                    gameOver = false; // 게임 오버 여부
+                    gameLoop; // 게임 실행 과정
+                    speed = 140; // 뱀 속도 설정
+                    gameScore = 0; // 점수 초기값
 
-        }
+                    gameMap = document.getElementById("snake-map"); // 게임 지도 영역
+                    scoreText = document.getElementById("score"); // 점수판 영역
+                    playButton = document.getElementById("do-play"); // 게임 실행 버튼
+                    messageBox = document.getElementById("sub-option"); // 게임 오버 메세지 영역
+                    btnUp = document.getElementById("btn-up"); // 방향키 위
+                    btnDown = document.getElementById("btn-down"); // 방향키 아래
+                    btnLeft = document.getElementById("btn-left"); // 방향키 왼쪽
+                    btnRight = document.getElementById("btn-right"); // 방향키 오른쪽
+               
+                    /*
+                        @brief: 뱀 이동
+                        @return: 뱀 이동 방향 값 리턴
+                        @param: event
+                    */
+                    document.onkeydown = moveSnake;
+                    moveSnakeMobile();
 
-        function moveSnakeMobile(event) {
-            btnUp.addEventListener('click', function (event) {
-                // up arrow
-                sankeDirection = directions["up"];
-                console.log('up')
-            });
-            btnDown.addEventListener('click', function (event) {
-                // down arrow
-                sankeDirection = directions["down"];
-            });
-            btnLeft.addEventListener('click', function (event) {
-                // left arrow
-                sankeDirection = directions["left"];
-            });
-            btnRight.addEventListener('click', function (event) {
-                // right arrow
-                sankeDirection = directions["right"];
-            });
-        }
-        var snake = [];
-        var snakeHead = new SnakePiece(2, 3);
+                    function moveSnake(e) {
+                        e = e || window.event;
 
-        var foods = [];
-        foods.push(new FoodPiece());
+                        if (e.keyCode == '38') {
+                            // up arrow
+                            sankeDirection = directions["up"];
+                            
+                        } else if (e.keyCode == '40') {
+                            // down arrow
+                            sankeDirection = directions["down"];
+                        } else if (e.keyCode == '37') {
+                            // left arrow
+                            sankeDirection = directions["left"];
+                        } else if (e.keyCode == '39') {
+                            // right arrow
+                            sankeDirection = directions["right"];
+                        }
 
-        // 뱀에 머리 추가 
-        snake.push(snakeHead);
+                    }
 
-        // 게임 실행하면 반복되는 함수들
-        function play() {
-            gameLoop = setInterval(function () {
+                    function moveSnakeMobile(event) {
+                        btnUp.addEventListener('click', function (event) {
+                            // up arrow
+                            sankeDirection = directions["up"];
+                        });
+                        btnDown.addEventListener('click', function (event) {
+                            // down arrow
+                            sankeDirection = directions["down"];
+                        });
+                        btnLeft.addEventListener('click', function (event) {
+                            // left arrow
+                            sankeDirection = directions["left"];
+                        });
+                        btnRight.addEventListener('click', function (event) {
+                            // right arrow
+                            sankeDirection = directions["right"];
+                        });
+                    }
+                    snake = [];
+                    snakeHead = new self.SnakePiece(2, 3);
 
-                // 뱀 자동 이동
-                snake.unshift(new SnakePiece(snake[0].row + rowMove[sankeDirection], snake[0].col + colMove[
-                    sankeDirection]));
+                    foods = [];
+                    foods.push(new self.FoodPiece());
 
-                // 사과를 먹었을 때 꼬리 안지움
-                snakeEating = isEating();
-                if (snakeEating) {
-                    gameScore = gameScore + 10;
+                    // 뱀에 머리 추가 
+                    snake.push(snakeHead);
+
+                    self.gamePlay()
+
+                },
+                // 게임 실행
+                gamePlay: function () {
+                    playButton.addEventListener('click', function () {
+
+                        playGame = !playGame;
+                        if (playGame) {
+                            self.play();
+                        } else {
+                            clearInterval(gameLoop);
+                        }
+                    })
+
+                },
+                // 죽었는지 확인
+                isDying: function () {
+                    // 벽에 부딪혔을 때
+                    var head = snake[0];
+                    if (head.row < 0 || head.row >= mapHeight || head.col < 0 || head.col >= mapWidth) {
+                        return true;
+                    }
+                    // 자기 몸에 부딪혔을 때
+                    var i;
+                    for (i = 1; i < snake.length; i++) {
+                        var curPiece = snake[i];
+                        if (head.row === curPiece.row && head.col === curPiece.col) { // 머리의 위치와 몸의 위치가 만날 때
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                // 사과 먹기
+                isEating: function () {
+                    var head = snake[0];
+                    var i;
+                    for (i = 0; i < foods.length; i++) {
+                        var curPiece = foods[i];
+                        if (head.row === curPiece.row && head.col === curPiece.col) { // 사과의 위치와 몸의 위치가 만날 때
+
+                            foods.splice(i, 1); //배열 변경을 시작할 인덱스 i, 배열에서 제거할 요소의 수 1 - 사과의 배열에서 제거
+                            gameMap.removeChild(curPiece.el); // apple을 제거
+                            return true;
+
+                        }
+                    }
+                    return false;
+                },
+                // 게임 실행하면 반복되는 함수들
+                play: function () {
+                    gameLoop = setInterval(function () {
+
+                        // 뱀 자동 이동
+                        snake.unshift(new self.SnakePiece(snake[0].row + rowMove[sankeDirection], snake[
+                            0].col + colMove[sankeDirection]));
+
+                        // 사과를 먹었을 때 꼬리 안지움
+                        snakeEating = self.isEating();
+                        if (snakeEating) {
+                            gameScore = gameScore + 10;
+                        }
+                        // 사과 먹지 않았을때는 꼬리를 하나씩 지움
+                        if (!snakeEating) {
+                            gameMap.removeChild(snake.pop().el);
+                        }
+                        // 뱀이 죽었을 때 
+                        snakeDead = self.isDying();
+                        if (snakeDead) {
+                            playGame = false;
+                            self.handleDeath();
+                        }
+
+                        snakeEating = false;
+                        snakeDead = false;
+
+                        scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
+
+                        if (!gameOver) {
+                            playButton.innerText = playGame ? "멈춰!" : "게임 시작!";
+                        }
+
+                        // 사과 다먹으면 다시 생성
+                        if (foods.length < 1) {
+                            foods.push(new self.FoodPiece());
+                        }
+                    }, speed);
+                },
+                // 뱀이 죽었을 때 실행
+                handleDeath: function () {
+
+                    // 게임 멈추기 
+                    clearInterval(gameLoop);
+
+                    // 죽은 메세지 
+                    gameOver = true;
+                    messageBox.classList.add('on')
+
+                    // 뱀 지우기
+                    while (snake[0]) {
+                        gameMap.removeChild(snake.pop().el);
+                    }
+
+                    // 스네이크 리스폰
+                    setTimeout(function () {
+                        scoreText.innerText = "🛸 재미있는 우주게임 👽 ";
+                        playButton.innerText = "게임 시작!";
+                        messageBox.classList.remove('on');
+                        gameScore = 0
+
+                        // 게임 초기화
+                        snakeHead = new self.SnakePiece(1, 1);
+                        snake.push(snakeHead);
+                        gameOver = false;
+
+                    }, 1500);
+                },
+                // 사과 객체 생성
+                FoodPiece: function () {
+                    var col = self.getRandomNum(0, mapWidth);
+                    var row = self.getRandomNum(0, mapHeight);
+                    var apple = document.createElement("div");
+                    apple.className = "food";
+                    apple.style.top = (row * blockSize) + "px";
+                    apple.style.left = (col * blockSize) + "px";
+                    gameMap.appendChild(apple);
+
+                    this.col = col;
+                    this.row = row;
+                    this.el = apple;
+                },
+                /// 스네이크 몸 객체 생성 
+                SnakePiece: function (row, col) {
+                    /* 스네이크 생성 */
+                    var snakeBody = document.createElement("div");
+                    snakeBody.className = "snake";
+                    snakeBody.style.top = (row * blockSize) + "px";
+                    snakeBody.style.left = (col * blockSize) + "px";
+
+                    gameMap.appendChild(snakeBody);
+
+                    this.col = col;
+                    this.row = row;
+                    this.el = snakeBody;
+                },
+                /* 난수 생성 */
+                getRandomNum: function (min, max) {
+                    return Math.floor(Math.random() * (max - min));
                 }
-                // 사과 먹지 않았을때는 꼬리를 하나씩 지움
-                if (!snakeEating) {
-                    gameMap.removeChild(snake.pop().el);
-                }
-                // 뱀이 죽었을 때 
-                snakeDead = isDying();
-                if (snakeDead) {
-                    playGame = false;
-                    handleDeath();
-                }
-
-                snakeEating = false;
-                snakeDead = false;
-
-                scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
-
-                if (!gameOver) {
-                    playButton.innerText = playGame ? "멈춰!" : "게임 시작!";
-                }
-
-                // 사과 다먹으면 다시 생성
-                if (foods.length < 1) {
-                    foods.push(new FoodPiece());
-                }
-            }, speed);
-        }
-
-        // 게임 실행
-        function gamePlay() {
-            playGame = !playGame;
-            if (playGame) {
-                play();
-            } else {
-                clearInterval(gameLoop);
             }
-        }
-
-        // 뱀이 죽었을 때 실행
-        function handleDeath() {
-
-            // 게임 멈추기 
-            clearInterval(gameLoop);
-
-            // 죽은 메세지 
-            gameOver = true;
-            messageBox.classList.add('on')
-
-            // 뱀 지우기
-            while (snake[0]) {
-                gameMap.removeChild(snake.pop().el);
-            }
-
-            // 스네이크 리스폰
-            setTimeout(function () {
-                scoreText.innerText = "🛸 재미있는 우주게임 👽 ";
-                playButton.innerText = "게임 시작!";
-                messageBox.classList.remove('on');
-                gameScore = 0
-
-                // 게임 초기화
-                snakeHead = new SnakePiece(1, 1);
-                snake.push(snakeHead);
-                gameOver = false;
-
-            }, 1500);
-        }
-
-        /// 스네이크 몸 객체 생성 
-        function SnakePiece(row, col) {
-            /* 스네이크 생성 */
-            var snakeBody = document.createElement("div");
-            snakeBody.className = "snake";
-            snakeBody.style.top = (row * blockSize) + "px";
-            snakeBody.style.left = (col * blockSize) + "px";
-
-            gameMap.appendChild(snakeBody);
-
-            this.col = col;
-            this.row = row;
-            this.el = snakeBody;
-        }
-
-        // 사과 객체 생성
-        function FoodPiece() {
-            var col = getRandomNum(0, mapWidth);
-            var row = getRandomNum(0, mapHeight);
-
-            var apple = document.createElement("div");
-            apple.className = "food";
-            apple.style.top = (row * blockSize) + "px";
-            apple.style.left = (col * blockSize) + "px";
-            gameMap.appendChild(apple);
-
-            this.col = col;
-            this.row = row;
-            this.el = apple;
-        }
-
-        // 죽었는지 확인
-        function isDying() {
-            // 벽에 부딪혔을 때
-            var head = snake[0];
-            if (head.row < 0 || head.row >= mapHeight || head.col < 0 || head.col >= mapWidth) {
-                return true;
-            }
-            // 자기 몸에 부딪혔을 때
-            var i;
-            for (i = 1; i < snake.length; i++) {
-                var curPiece = snake[i];
-                if (head.row === curPiece.row && head.col === curPiece.col) { // 머리의 위치와 몸의 위치가 만날 때
-                    return true;
-                }
-            }
-            return false;
-        }
-        // 사과 먹기
-        function isEating() {
-            var head = snake[0];
-            var i;
-            for (i = 0; i < foods.length; i++) {
-                var curPiece = foods[i];
-                if (head.row === curPiece.row && head.col === curPiece.col) { // 사과의 위치와 몸의 위치가 만날 때
-
-                    foods.splice(i, 1); //배열 변경을 시작할 인덱스 i, 배열에서 제거할 요소의 수 1 - 사과의 배열에서 제거
-                    gameMap.removeChild(curPiece.el); // apple을 제거
-                    return true;
-
-
-                }
-            }
-            return false;
-        }
-
-        /* 난수 생성 */
-        function getRandomNum(min, max) {
-            return Math.floor(Math.random() * (max - min));
-        }
+        }();
     </script>
 </body>
 
