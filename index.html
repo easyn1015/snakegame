@@ -13,6 +13,10 @@
             padding: 0;
         }
 
+        a {
+            text-decoration: none;
+        }
+
         body {
             background-color: #201d22;
         }
@@ -41,7 +45,7 @@
 
         .btn {
             flex: 1 1 auto;
-            margin: 10px;
+            margin: 10px 10px 30px;
             padding: 15px 45px;
             text-align: center;
             transition: 0.5s;
@@ -229,7 +233,7 @@
             </div>
             <div id="game-start" class="game-info">
                 <button class="btn" id="do-play">게임 시작!</button>
-                <!-- <a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
+                <!--<a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
             </div>
             <div id="screen">
                 <div id="snake-map"></div>
@@ -271,6 +275,7 @@
             var gameMap, scoreText, playButton, messageBox, btnUp, btnDown, btnLeft, btnRight;
             var colMove, rowMove;
             var sankeDirection, snakeDead, snakeEating, playGame, gameOver, gameLoop, speed, gameScore;
+            var bgSound;
             return {
                 /*
                     @brief: 게임 초기 세팅
@@ -312,7 +317,6 @@
                     // 게임 세팅
                     self.settingGame();
                 },
-
                 /*
                     @brief: 뱀 방향 키 조종
                     @return: 뱀 변경된 위치
@@ -427,6 +431,7 @@
                 */
                 startGame: function () {
                     playButton.addEventListener('click', function () {
+                        self.startSound();
                         playGame = !playGame;
                         if (playGame) {
                             self.play();
@@ -482,6 +487,7 @@
                 play: function () {
                     gameLoop = setInterval(function () {
 
+
                         // 뱀 이동
                         snake.unshift(new self.SnakePiece(snake[0].row + rowMove[sankeDirection], snake[
                             0].col + colMove[sankeDirection]));
@@ -492,13 +498,14 @@
                         // 사과 먹었을때 점수 증가
                         if (snakeEating) {
                             gameScore = gameScore + 10;
+                            self.eatingSound();
                         }
 
                         // 사과 먹지 않았을때는 꼬리를 하나씩 지움
                         if (!snakeEating) {
                             gameMap.removeChild(snake.pop().el);
                         }
-
+                        
                         // 뱀이 죽었을 때 
                         snakeDead = self.isDying();
                         if (snakeDead) {
@@ -541,7 +548,7 @@
                     while (snake[0]) {
                         gameMap.removeChild(snake.pop().el);
                     }
-
+                    self.gameOverSound();
                     // 게임 리스폰
                     setTimeout(function () {
                         // 게임 텍스트, 게임 점수 초기화
@@ -556,6 +563,34 @@
                         gameOver = false;
 
                     }, 1500);
+                },
+                /*
+                    @breif: 먹는 효과음
+                    @return: 먹는 소리
+                */
+                eatingSound: function () {
+                    var snd = new Audio("eating05.mp3");
+                    snd.play();
+                },
+                /*
+                    @breif: 시작 효과음
+                    @return: 시작 소리
+                */
+                startSound: function () {
+                    var startSnd = new Audio("start-game.mp3");
+                    startSnd.play();
+
+                    bgSound = new Audio("bg.mp3");
+                    bgSound.play();
+                },
+                /*
+                    @breif: 게임 오버 효과음
+                    @return: 게임 오버 소리
+                */
+                gameOverSound: function () {
+                    var gameOversnd = new Audio("gameover02.mp3");
+                    gameOversnd.play();
+                    bgSound.pause();
                 },
                 /*
                     @breif: 사과 생성
