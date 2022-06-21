@@ -284,11 +284,14 @@
                     mapHeight = 17;
                     mapWidth = 17; // = 850 / 50
                     blockSize = 50;
+                    
+                    mobileSetting()
 
                     window.addEventListener('resize', function (event) {
                         mobileSetting()
+                        
                     }, true);
-
+                    
                     function mobileSetting() {
                         if (window.innerWidth <= 1024) {
                             mapHeight = 24;
@@ -521,6 +524,7 @@
                     apple.className = "food";
                     apple.style.top = (row * blockSize) + "px";
                     apple.style.left = (col * blockSize) + "px";
+
                     gameMap.appendChild(apple);
 
                     this.col = col;
