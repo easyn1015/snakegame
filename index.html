@@ -109,6 +109,12 @@
             background: url(img/img-monster.png) no-repeat center center/100%;
         }
 
+        .info-text {
+            padding: 20px 0;
+            color: #ccc;
+            text-align: center;
+        }
+
         .food {
             position: absolute;
             top: 0;
@@ -235,6 +241,7 @@
                 <button class="btn" id="do-play">게임 시작!</button>
                 <!--<a class="btn" href="giraff-game.html" target="_blank" title="기린 게임(이전버전)" >기린게임(이전버전)</a>-->
             </div>
+            <!--<p class="info-text">🔊 배경음악 주의! 🎵</p>-->
             <div id="screen">
                 <div id="snake-map"></div>
             </div>
@@ -459,7 +466,6 @@
                             return true;
                         }
                     }
-                    return false;
                 },
                 /*
                     @breif: 사과 먹었는지 검사하는 함수, play() 함수에서 사용
@@ -471,7 +477,6 @@
                     for (i = 0; i < foods.length; i++) {
                         var curPiece = foods[i];
                         if (head.row === curPiece.row && head.col === curPiece.col) { // 사과의 위치와 몸의 위치가 만날 때
-
                             foods.splice(i, 1); // 배열 변경을 시작할 인덱스 i, 배열에서 제거할 요소의 수 1 - 사과의 배열에서 제거
                             gameMap.removeChild(curPiece.el); // apple을 제거
                             return true;
@@ -487,10 +492,8 @@
                 play: function () {
                     gameLoop = setInterval(function () {
 
-
                         // 뱀 이동
-                        snake.unshift(new self.SnakePiece(snake[0].row + rowMove[sankeDirection], snake[
-                            0].col + colMove[sankeDirection]));
+                        snake.unshift(new self.SnakePiece(snake[0].row + rowMove[sankeDirection], snake[0].col + colMove[sankeDirection]));
 
                         // 사과를 먹었을 때 꼬리 안지움
                         snakeEating = self.isEating();
@@ -505,7 +508,7 @@
                         if (!snakeEating) {
                             gameMap.removeChild(snake.pop().el);
                         }
-                        
+
                         // 뱀이 죽었을 때 
                         snakeDead = self.isDying();
                         if (snakeDead) {
@@ -601,6 +604,15 @@
                     var row = self.getRandomNum(0, mapHeight);
                     var apple = document.createElement("div");
                     apple.className = "food";
+
+                    // 몸이랑 겹치면 다시 호출
+                    for (var i = 1; i < snake.length; i++) {
+                        var curPiece = snake[i];
+                        if (row === curPiece.row && col === curPiece.col) { 
+                            self.FoodPiece();          
+                            return ;
+                        }
+                    }
                     apple.style.top = (row * blockSize) + "px";
                     apple.style.left = (col * blockSize) + "px";
 
