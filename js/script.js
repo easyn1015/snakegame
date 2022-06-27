@@ -344,6 +344,7 @@ App.snakeGame = function () {
             startSnd.play();
 
             bgSound = new Audio("../sound/bg.mp3");
+            bgSound.loop = true;
             bgSound.play();
         },
         /*
@@ -384,7 +385,7 @@ App.snakeGame = function () {
             apple.className = "food";
 
             // 머리의 위치와 몸의 위치가 만날 때
-            for (var i = 1; i < foods.length; i++) {
+            for (var i = 1; i < snakeBody.length; i++) {
                 var curPiece = snake[i];
                 console.log(curPiece)
                 if (row === curPiece.row && col === curPiece.col) {
