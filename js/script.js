@@ -319,7 +319,7 @@ App.snakeGame = function () {
 
                 // 게임 초기화
                 playButton.disabled = false;
-                self.disabledButton(false);
+                self.disabledButton(true);
                 snakeHead = new self.SnakePiece(1, 1);
                 snake.push(snakeHead);
                 gameOver = false;
