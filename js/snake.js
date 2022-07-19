@@ -108,11 +108,11 @@ App.snakeGame = function () {
             /* Mobile (터치로 조종) */
             moveSnakeMobile();
             self.disabledButton(true);
-            /*
-                @brief: 뱀 이동 (PC)
-                @return: 방향키 사용으로 변경된 뱀 이동 방향 값 리턴 
-                @param: e
-            */
+            //=================================================================
+            //  @brief: 뱀 이동(PC)
+            //  @return: 방향키 사용으로 변경된 뱀 이동 방향 값 리턴
+            //  @param: e
+            //=================================================================
             function moveSnake(e) {
                 e = e || window.event;
 
@@ -196,14 +196,21 @@ App.snakeGame = function () {
         //=================================================================
         startGame: function () {
             playButton.addEventListener('click', function () {
+                // 게임 조종 버튼 비활성
                 self.disabledButton(false);
+
+                //게임 시작 효과음
                 self.startSound();
+                
+                //게임 시작/끝
                 playGame = !playGame;
                 if (playGame) {
                     self.play();
                 } else {
                     clearInterval(gameLoop);
                 }
+                
+                // 게임 시작 버튼 비활성
                 playButton.disabled = true;
             })
 
@@ -246,6 +253,31 @@ App.snakeGame = function () {
             return false;
         },
         //=================================================================
+        //  @breif: 게임 현황 판 
+        //  @return: 게임 현재 점수, 누적 점수
+        //  @param: gameStatus - true: 게임 진행중 / false: 게임 오버
+        //=================================================================
+        gameStatusBoard: function (gameStatus) {
+            if (gameStatus === true) {
+                // 현재 점수 추가
+                scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
+
+                // 사과 먹었을때 점수 증가
+                if (snakeEating) {
+                    gameScore = gameScore + 10;
+                    self.eatingSound();
+                }
+            } else {
+                // 게임 텍스트, 게임 점수 초기화
+                scoreText.innerText = "🛸 재미있는 우주게임 👽 ";
+                playButton.innerText = "게임 시작!";
+                messageBox.classList.remove('on');
+                gameScore = 0
+                playButton.disabled = false;
+                self.disabledButton(false);
+            }
+        },
+        //=================================================================
         //  @breif: 사과 먹었는지 검사하는 함수, startGame() 함수에서 사용
         //  @return: 먹었을 때 (true) / 안먹었을 때 (false)
         //=================================================================
@@ -259,30 +291,22 @@ App.snakeGame = function () {
                 // 사과를 먹었을 때 꼬리 안지움
                 snakeEating = self.isEating();
 
-                // 사과 먹었을때 점수 증가
-                if (snakeEating) {
-                    gameScore = gameScore + 10;
-                    self.eatingSound();
-                }
-
                 // 사과 먹지 않았을때는 꼬리를 하나씩 지움
                 if (!snakeEating) {
                     gameMap.removeChild(snake.pop().el);
                 }
-
                 // 뱀이 죽었을 때 
                 snakeDead = self.isDying();
                 if (snakeDead) {
                     playGame = false;
                     self.handleDeath();
                 }
+                // 게임 현황 판 
+                self.gameStatusBoard(true);
 
                 // 뱀이 죽지 않았을 때 실행 
                 snakeEating = false;
                 snakeDead = false;
-
-                // 현재 점수 추가
-                scoreText.innerText = "🔥 현재 점수 🔥: " + gameScore;
 
                 // 사과 다먹으면 다시 생성
                 if (foods.length < 1) {
@@ -307,18 +331,15 @@ App.snakeGame = function () {
             while (snake[0]) {
                 gameMap.removeChild(snake.pop().el);
             }
+            // 게임 오버 효과음
             self.gameOverSound();
+
             // 게임 리스폰
             setTimeout(function () {
-                // 게임 텍스트, 게임 점수 초기화
-                scoreText.innerText = "🛸 재미있는 우주게임 👽 ";
-                playButton.innerText = "게임 시작!";
-                messageBox.classList.remove('on');
-                gameScore = 0
+                // 게임 현황판 초기화
+                self.gameStatusBoard(false);
 
                 // 게임 초기화
-                playButton.disabled = false;
-                self.disabledButton(false);
                 snakeHead = new self.SnakePiece(1, 1);
                 snake.push(snakeHead);
                 gameOver = false;
