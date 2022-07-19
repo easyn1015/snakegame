@@ -14,9 +14,7 @@ var App = new Object();
 //——————————-——————————-——————————-——————————-
 document.addEventListener("DOMContentLoaded", function (event) {
     App.snakeGame.init();
-
 });
-
 App.snakeGame = function () {
     var self;
     var mapHeight, mapWidth, blockSize;
@@ -25,11 +23,12 @@ App.snakeGame = function () {
     var colMove, rowMove;
     var sankeDirection, directions, snakeDead, snakeEating, playGame, gameOver, gameLoop, speed, gameScore;
     var bgSound;
+    var snakeBody;
     return {
-        /*
-            @brief: 게임 초기 세팅
-            @return: 맵, 뱀, 사과 크기
-        */
+        //====================================================
+        //  @brief: 게임 초기 세팅
+        //  @return: 맵, 뱀, 사과 크기
+        //====================================================
         init: function () {
             self = this;
             //——————————-——————————-——————————-——————————-
@@ -66,10 +65,10 @@ App.snakeGame = function () {
             // 게임 세팅
             self.settingGame();
         },
-        /*
-            @brief: 뱀 방향 키 조종
-            @return: 뱀 변경된 위치
-        */
+        //====================================================
+        //   @brief: 뱀 방향 키 조종
+        //  @return: 뱀 변경된 위치
+        //====================================================
         settingGame: function () {
             // 뱀 방향 설정
             directions = {
@@ -131,11 +130,11 @@ App.snakeGame = function () {
                     sankeDirection = directions["right"];
                 }
             }
-            /*
-                @brief: 뱀 이동 (Mobile)
-                @return: 터치 사용으로 변경된 뱀 이동 방향 값 리턴 
-                @param: event
-            */
+            //=================================================================
+            //   @brief: 뱀 이동 (Mobile)
+            //   @return: 터치 사용으로 변경된 뱀 이동 방향 값 리턴 
+            //   @param: event
+            //=================================================================
             function moveSnakeMobile(event) {
                 btnUp.addEventListener('click', function (event) {
                     // up arrow
@@ -174,10 +173,10 @@ App.snakeGame = function () {
             self.startGame()
 
         },
-        /*
-            @breif: 게임 시작 전 버튼 비활성화
-            @return: 게임 시작 전에 버튼 비활성 - true / 활성 - false
-        */
+        //=================================================================
+        //  @breif: 게임 시작 전 버튼 비활성화
+        //  @return: 게임 시작 전에 버튼 비활성 - true / 활성 - false
+        //=================================================================
         disabledButton: function (param) {
             if (param === true) {
                 btnUp.disabled = true;
@@ -191,10 +190,10 @@ App.snakeGame = function () {
                 btnRight.disabled = false;
             }
         },
-        /*
-            @breif: 게임 시작 버튼 클릭하여 게임 실행하는 함수
-            @return: 버튼 클릭하면 게임 시작 상태 확인 - 게임 멈춰 있음(true)/ 게임 진행중(false)
-        */
+        //=================================================================
+        //  @breif: 게임 시작 버튼 클릭하여 게임 실행하는 함수
+        //  @return: 버튼 클릭하면 게임 시작 상태 확인 - 게임 멈춰 있음(true)/ 게임 진행중(false)
+        //=================================================================
         startGame: function () {
             playButton.addEventListener('click', function () {
                 self.disabledButton(false);
@@ -209,10 +208,10 @@ App.snakeGame = function () {
             })
 
         },
-        /*
-            @breif: 뱀이 죽었는지 검사하는 함수, play() 함수에서 사용
-            @return: 벽에 부딪혔을때, 자기 몸에 부딛혔을 때 (true)/ 충돌 없을 때 (false)
-        */
+        //=================================================================
+        //   @breif: 뱀이 죽었는지 검사하는 함수, play() 함수에서 사용
+        //   @return: 벽에 부딪혔을때, 자기 몸에 부딛혔을 때 (true)/ 충돌 없을 때 (false)
+        //=================================================================
         isDying: function () {
             // 벽에 부딪혔을 때
             var head = snake[0];
@@ -228,10 +227,10 @@ App.snakeGame = function () {
                 }
             }
         },
-        /*
-            @breif: 사과 먹었는지 검사하는 함수, play() 함수에서 사용
-            @return: 먹었을 때 (true) / 안먹었을 때 (false)
-        */
+        //=================================================================
+        //  @breif: 사과 먹었는지 검사하는 함수, play() 함수에서 사용
+        //  @return: 먹었을 때 (true) / 안먹었을 때 (false)
+        //=================================================================
         isEating: function () {
             var head = snake[0];
             var i;
@@ -246,10 +245,10 @@ App.snakeGame = function () {
             }
             return false;
         },
-        /*
-            @breif: 사과 먹었는지 검사하는 함수, startGame() 함수에서 사용
-            @return: 먹었을 때 (true) / 안먹었을 때 (false)
-        */
+        //=================================================================
+        //  @breif: 사과 먹었는지 검사하는 함수, startGame() 함수에서 사용
+        //  @return: 먹었을 때 (true) / 안먹었을 때 (false)
+        //=================================================================
         play: function () {
             gameLoop = setInterval(function () {
 
@@ -291,10 +290,10 @@ App.snakeGame = function () {
                 }
             }, speed);
         },
-        /*
-            @breif: 뱀이 죽었을 때 실행, play() 함수에서 사용
-            @return: 게임 멈춤, 게임 오버 메세지, 뱀 삭제, 게임 리스폰, 게임 초기화
-        */
+        //=================================================================
+        //  @breif: 뱀이 죽었을 때 실행, play() 함수에서 사용
+        //  @return: 게임 멈춤, 게임 오버 메세지, 뱀 삭제, 게임 리스폰, 게임 초기화
+        //=================================================================
         handleDeath: function () {
 
             // 게임 멈추기 
@@ -327,18 +326,18 @@ App.snakeGame = function () {
 
             }, 1500);
         },
-        /*
-            @breif: 먹는 효과음
-            @return: 먹는 소리
-        */
+        //=================================================================
+        //  @breif: 먹는 효과음
+        //  @return: 먹는 소리
+        //=================================================================
         eatingSound: function () {
             var snd = new Audio("sound/eating05.mp3");
             snd.play();
         },
-        /*
-            @breif: 시작 효과음
-            @return: 시작 소리
-        */
+        //=================================================================
+        //  @breif: 시작 효과음
+        //  @return: 시작 소리
+        //=================================================================
         startSound: function () {
             var startSnd = new Audio("sound/start-game.mp3");
             startSnd.play();
@@ -346,27 +345,24 @@ App.snakeGame = function () {
             bgSound = new Audio("sound/bg.mp3");
             bgSound.play();
         },
-        /*
-            @breif: 게임 오버 효과음
-            @return: 게임 오버 소리
-        */
+        //=================================================================
+        //  @breif: 게임 오버 효과음
+        //  @return: 게임 오버 소리
+        //=================================================================
         gameOverSound: function () {
             var gameOversnd = new Audio("sound/gameover03.mp3");
             gameOversnd.play();
             bgSound.pause();
         },
-        /*
-            @breif: 사과 생성
-            @return: 사과 top, left 값
-        */
-        /*
-            @breif: 뱀 생성
-            @return: 뱀 top, left 값
-            @param: row, col
-        */
+
+        //=================================================================
+        //  @breif: 뱀 생성
+        //  @return: 뱀 top, left 값
+        //  @param: row, col
+        //=================================================================*/
         SnakePiece: function (row, col) {
             /* 스네이크 생성 */
-            var snakeBody = document.createElement("div");
+            snakeBody = document.createElement("div");
             snakeBody.className = "snake";
             snakeBody.style.top = (row * blockSize) + "px";
             snakeBody.style.left = (col * blockSize) + "px";
@@ -376,23 +372,17 @@ App.snakeGame = function () {
             this.col = col;
             this.row = row;
             this.el = snakeBody;
+
         },
+        //=================================================================
+        //  @breif: 사과 생성
+        //  @return: 사과 top, left 값
+        //=================================================================
         FoodPiece: function () {
             var col = self.getRandomNum(0, mapWidth);
             var row = self.getRandomNum(0, mapHeight);
             var apple = document.createElement("div");
             apple.className = "food";
-
-            // 머리의 위치와 몸의 위치가 만날 때
-            for (var i = 1; i < foods.length; i++) {
-                var curPiece = snake[i];
-                console.log(curPiece)
-                if (row === curPiece.row && col === curPiece.col) {
-                    self.FoodPiece();
-                    return;
-                }
-            }
-
 
             apple.style.top = (row * blockSize) + "px";
             apple.style.left = (col * blockSize) + "px";
@@ -402,13 +392,26 @@ App.snakeGame = function () {
             this.col = col;
             this.row = row;
             this.el = apple;
+            //console.log(new self.SnakePiece(row, col))
+
+            // 머리의 위치와 몸의 위치가 만날 때
+            /* for (var i = 1; i < foods.length; i++) {
+                 var curPiece = SnakePiece.col;
+
+                 if (row === SnakePiece.row && col === SnakePiece.col) {
+                     self.FoodPiece();
+                
+                     return;
+                 }
+             }*/
+
         },
 
-        /*
-            @breif: 사과 위치를 랜덤으로 생성
-            @return: 난수 생성
-            @param: min, max
-        */
+        //=================================================================
+        //  @breif: 사과 위치를 랜덤으로 생성
+        //  @return: 난수 생성
+        //  @param: min, max
+        //=================================================================
         getRandomNum: function (min, max) {
             return Math.floor(Math.random() * (max - min));
         }
